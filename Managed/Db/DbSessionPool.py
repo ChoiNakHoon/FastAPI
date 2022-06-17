@@ -72,6 +72,8 @@ class CDbSessionPool:
         finally:
             self.__queue.put(session)
             
+            
+    # 프로시져 실행 
     def CallProc(self, proc, parameters = ()):
         rows = None
         
