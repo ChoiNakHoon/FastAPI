@@ -1,4 +1,5 @@
 from unittest import result
+from urllib import response
 from Singleton import CSingleton
 
 class CRouteDispatcher(CSingleton):
@@ -17,6 +18,8 @@ class CRouteDispatcher(CSingleton):
         self.initResponse(config=config)
         # FastApiRequests 시작
         self.initFastApiRequests()
+        self.initFastApiWebSockets()
+        self.loadRequests()
         
     def initResponse(self, config = None):
         
@@ -59,3 +62,15 @@ class CRouteDispatcher(CSingleton):
                 
     def initFastAPIRequests(self):
         from Route.Request import Api
+        self.__fast_api_requests.append(Api.CApiSample)
+        
+    def initFastApiWebSockets(self):
+        from Route.WebSocket import Server
+        self.__fast_api_websockets.append(Server.CServerSample)
+        
+    def loadRequest(self):
+        for request in self.__fast_api_requests:
+            request().initFastApi(app=self.__app, response=self.__responses, jwt_secret=self.__jwt_secret, hash_code=self.__hash_code)
+            
+        for base in self.__fast_api_websockets:
+            base().initFastApi(app=self.__app, jwt_secret=self.__jwt_secret)
