@@ -72,7 +72,7 @@ class CBaseRequest:
                             async def OnPost(request: Request, response: Response, request_model:self.__request_model = Depends()):
                                 return await self.OnRun(request=request, response=response, resquest_model=request_model)
                         else:
-                            @app.post(self.__path, response_model=self.__response_model, tags=self.__tags, responses=responses, description=self.__description, name=self.__name, response_class=self.__response_class )
+                            @app.post(self.__path, response_model=self.__response_model, tags=self.__tags, responses=responses, description=self.__description, name=self.__name, response_class=self.__response_class)
                             async def OnPost(request_model:self.__request_model, request: Request, response: Response):
                                 return await self.OnRun(request=request, response=response, request_model=request_model)
                 else:
@@ -126,6 +126,7 @@ class CBaseRequest:
                                 return await self.OnRun(request=request, response=response, request_model=request_model, files=files)
                             
     async def OnRun(self, request:Request, response:Response, request_model = None, files = None):
+        print("////////////////here///////////////////")
         if self.__hash_code != None and len(self.__hash_code) != 0:
             if not "hash_code" in request.headers:
                 return JSONResponse(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
